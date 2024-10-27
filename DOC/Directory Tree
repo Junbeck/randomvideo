@@ -1,0 +1,31 @@
+project-root/
+├── index.html              # 메인 페이지
+├── styles/
+│   └── styles.css          # CSS 스타일 시트
+├── scripts/
+│   ├── app.js              # 주요 자바스크립트 파일
+│   └── youtubeService.js   # 유튜브 API 호출 및 데이터 처리
+├── assets/
+│   ├── images/             # 이미지 리소스
+│   └── icons/              # 아이콘 파일들
+├── libs/
+│   └── external/           # 외부 라이브러리 (예: jQuery, Bootstrap)
+├── cache/
+│   └── videoCache.json     # 캐싱된 비디오 데이터 (API 호출 최소화)
+├── docs/
+│   └── README.md           # 프로젝트 설명 및 문서화
+├── .env                    # 환경 변수 설정 파일 (API 키 등)
+├── .gitignore              # Git 제외 파일 목록
+└── package.json            # 프로젝트 의존성 및 스크립트
+```
+
+- **index.html**: 웹사이트의 메인 진입점입니다.
+- **styles/styles.css**: 전체 사이트의 스타일링을 담당합니다.
+- **scripts/app.js**: DOM 조작 및 이벤트 처리를 담당합니다.
+- **scripts/youtubeService.js**: 유튜브 API와의 통신 및 데이터 처리를 담당합니다.
+- **assets/**: 이미지, 아이콘 등 정적 리소스를 보관합니다.
+- **libs/external/**: 프로젝트에서 사용하는 외부 라이브러리를 저장합니다.
+- **cache/videoCache.json**: API 호출을 최소화하기 위해 비디오 데이터를 캐싱합니다.
+- **docs/README.md**: 프로젝트의 개요, 설치 방법, 사용법 등을 문서화합니다.
+- **.env**: API 키와 같은 민감한 정보를 환경 변수로 관리합니다.
+- **package.json**: Node.js 패키지 매니저를 사용하여 의존성 관리를 합니다.

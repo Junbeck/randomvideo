@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤 뮤직비디오 플레이어</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div id="player-container">
+            <div id="youtube-player"></div>
+            <div class="scanline"></div>
+        </div>
+
+        <div class="controls">
+            <button id="playPause">재생/일시정지</button>
+            <div class="volume-control">
+                <button id="muteButton">음소거</button>
+                <input type="range" id="volumeSlider" min="0" max="100" value="100">
+            </div>
+            <button id="fullscreen">전체화면</button>
+        </div>
+
+        <div class="video-info">
+            <h2 id="videoTitle"></h2>
+            <p id="channelTitle"></p>
+            <a id="youtubeLink" target="_blank">유튜브에서 보기</a>
+        </div>
+
+        <button id="nextVideo">Next Video</button>
+    </div>
+
+    <script src="scripts/youtubeService.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

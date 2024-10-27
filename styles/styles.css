@@ -1,0 +1,181 @@
+:root {
+    --neon-pink: #ff71ce;
+    --neon-blue: #01cdfe;
+    --neon-green: #05ffa1;
+    --neon-purple: #b967ff;
+    --dark-bg: #1a1a1a;
+    --tv-border: #2b2b2b;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--dark-bg);
+    color: var(--neon-green);
+    font-family: 'Press Start 2P', cursive;
+    background-image: 
+        linear-gradient(45deg, #000000 25%, transparent 25%),
+        linear-gradient(-45deg, #000000 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #000000 75%),
+        linear-gradient(-45deg, transparent 75%, #000000 75%);
+    background-size: 20px 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* TV/스크린 디자인 */
+#player-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: var(--tv-border);
+    border-radius: 20px;
+    box-shadow: 
+        0 0 20px var(--neon-blue),
+        inset 0 0 20px rgba(1, 205, 254, 0.5);
+    margin-bottom: 30px;
+}
+
+/* TV 스크린 효과 */
+#player-container::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background: black;
+    border-radius: 50px;
+    z-index: 1;
+}
+
+/* TV 안테나 */
+#player-container::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 30px;
+    background: linear-gradient(45deg, transparent 45%, var(--tv-border) 45%, var(--tv-border) 55%, transparent 55%),
+                linear-gradient(-45deg, transparent 45%, var(--tv-border) 45%, var(--tv-border) 55%, transparent 55%);
+}
+
+#youtube-player {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    z-index: 2;
+    border-radius: 50px;
+}
+
+.video-info {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--neon-pink);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+
+.video-info h2 {
+    color: var(--neon-pink);
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px var(--neon-pink);
+}
+
+.video-info p {
+    color: var(--neon-blue);
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+#youtubeLink {
+    color: var(--neon-purple);
+    text-decoration: none;
+    font-size: 12px;
+    padding: 5px 10px;
+    border: 1px solid var(--neon-purple);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#youtubeLink:hover {
+    background: var(--neon-purple);
+    color: black;
+    box-shadow: 0 0 10px var(--neon-purple);
+}
+
+/* 다음 비디오 버튼 */
+#nextVideo {
+    background: transparent;
+    border: 3px solid var(--neon-green);
+    color: var(--neon-green);
+    padding: 15px 30px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-top: 20px;
+    animation: buttonGlow 2s infinite;
+}
+
+#nextVideo:hover {
+    background: var(--neon-green);
+    color: black;
+    box-shadow: 0 0 20px var(--neon-green);
+}
+
+/* 깜빡이는 효과 */
+@keyframes buttonGlow {
+    0% {
+        box-shadow: 0 0 5px var(--neon-green);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--neon-green);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--neon-green);
+    }
+}
+
+/* 스캔라인 효과 */
+.scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 0, 0, 0.1) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 3;
+    pointer-events: none;
+    animation: scanline 10s linear infinite;
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
