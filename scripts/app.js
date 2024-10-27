@@ -1,13 +1,39 @@
 class VideoPlayer {
     constructor() {
         this.player = null;
-        // API 키를 직접 입력하는 방식으로 임시 변경
-        this.youtubeService = new YoutubeService('AIzaSyDd52_WYRemvwauhJcJiZkFh0jauhqnsmU'); // 여기에 발급받은 API 키를 입력하세요
+        // config.js 파일에서 API 키를 불러옵니다
+        this.youtubeService = new YoutubeService(config.YOUTUBE_API_KEY);
         this.initializeEventListeners();
     }
 
     initializeEventListeners() {
         document.getElementById('nextVideo').addEventListener('click', () => this.loadRandomVideo());
+        document.getElementById('playPause').addEventListener('click', () => {
+            if (this.player.getPlayerState() === YT.PlayerState.PLAYING) {
+                this.player.pauseVideo();
+            } else {
+                this.player.playVideo();
+            }
+        });
+
+        document.getElementById('muteButton').addEventListener('click', () => {
+            if (this.player.isMuted()) {
+                this.player.unMute();
+            } else {
+                this.player.mute();
+            }
+        });
+
+        document.getElementById('volumeSlider').addEventListener('input', (e) => {
+            this.player.setVolume(e.target.value);
+        });
+
+        document.getElementById('fullscreen').addEventListener('click', () => {
+            const iframe = document.querySelector('#youtube-player');
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            }
+        });
     }
 
     initPlayer() {
