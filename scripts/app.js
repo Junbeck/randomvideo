@@ -37,13 +37,11 @@ class VideoPlayer {
     }
 
     initPlayer() {
-        if (typeof YT === 'undefined') {
-            // YouTube IFrame API가 아직 로드되지 않은 경우
+        if (typeof YT === 'undefined' || !YT.Player) {
             window.onYouTubeIframeAPIReady = () => {
                 this.createPlayer();
             };
         } else {
-            // YouTube IFrame API가 이미 로드된 경우
             this.createPlayer();
         }
     }
@@ -99,3 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const app = new VideoPlayer();
     app.initPlayer();
 });
+
+console.log('YT 객체:', typeof YT);
+console.log('API 키:', config.YOUTUBE_API_KEY);
