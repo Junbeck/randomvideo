@@ -1,8 +1,8 @@
 :root {
-    --neon-pink: #ff71ce;
-    --neon-blue: #01cdfe;
-    --neon-green: #05ffa1;
-    --neon-purple: #b967ff;
+    --neon-pink: #ff4d4d; /* 붉은 색감 */
+    --neon-blue: #4d94ff; /* 푸른 색감 */
+    --neon-green: #4dff88; /* 녹색 */
+    --neon-purple: #b84dff; /* 보라색 */
     --dark-bg: #1a1a1a;
     --tv-border: #2b2b2b;
 }
@@ -132,6 +132,7 @@ body {
     border-radius: 5px;
     margin-top: 20px;
     animation: buttonGlow 2s infinite;
+    box-shadow: 0 0 20px var(--neon-green);
 }
 
 #nextVideo:hover {

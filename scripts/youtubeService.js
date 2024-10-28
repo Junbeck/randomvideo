@@ -11,6 +11,11 @@ class YoutubeService {
         
         // localStorage에서 저장된 쿼터 정보 불러오기
         this.loadQuotaFromStorage();
+        
+        // 최근 재생된 비디오 히스토리
+        this.playHistory = [];
+        this.maxHistory = 10; // 히스토리에 저장할 최대 비디오 수
+        this.loadHistoryFromStorage(); // 히스토리 로드
     }
 
     // 다음 날 자정 시간 계산
@@ -47,6 +52,27 @@ class YoutubeService {
         }
     }
 
+    // 히스토리에 비디오 추가
+    addToHistory(videoId) {
+        this.playHistory.push(videoId);
+        if (this.playHistory.length > this.maxHistory) {
+            this.playHistory.shift(); // 가장 오래된 비디오 제거
+        }
+    }
+
+    // 히스토리를 localStorage에 저장
+    saveHistoryToStorage() {
+        localStorage.setItem('youtubePlayHistory', JSON.stringify(this.playHistory));
+    }
+
+    // localStorage에서 히스토리 불러오기
+    loadHistoryFromStorage() {
+        const savedHistory = localStorage.getItem('youtubePlayHistory');
+        if (savedHistory) {
+            this.playHistory = JSON.parse(savedHistory);
+        }
+    }
+
     // 쿼터 초기화
     resetQuota() {
         this.quotaUsed = 0;
@@ -72,9 +98,31 @@ class YoutubeService {
             const cachedVideos = Array.from(this.cache.values())
                 .filter(item => Date.now() - item.timestamp < 3600000); // 1시간 이내 캐시만 사용
 
-            if (cachedVideos.length > 0) {
-                const randomCached = cachedVideos[Math.floor(Math.random() * cachedVideos.length)];
-                return randomCached.data;
+            // 히스토리에 없는 비디오 필터링
+            const availableVideos = cachedVideos.filter(video => 
+                !this.playHistory.includes(video.data.id)
+            );
+
+            let video;
+
+            if (availableVideos.length > 0) {
+                const randomIndex = Math.floor(Math.random() * availableVideos.length);
+                video = availableVideos[randomIndex].data;
+            } else {
+                // 모든 캐시된 비디오가 히스토리에 있으면 히스토리 초기화 후 다시 시도
+                this.playHistory = [];
+                this.saveHistoryToStorage();
+                
+                if (cachedVideos.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * cachedVideos.length);
+                    video = cachedVideos[randomIndex].data;
+                }
+            }
+
+            if (video) {
+                this.addToHistory(video.id);
+                this.saveHistoryToStorage();
+                return video;
             }
 
             // API 호출 가능 여부 확인 (videos.list는 약 1-2 유닛 소비)
@@ -98,8 +146,30 @@ class YoutubeService {
                 this.cacheVideo(video.id, video);
             });
 
-            const randomIndex = Math.floor(Math.random() * data.items.length);
-            return data.items[randomIndex];
+            // 히스토리에 없는 비디오 필터링
+            const newAvailableVideos = data.items.filter(video => 
+                !this.playHistory.includes(video.id)
+            );
+
+            if (newAvailableVideos.length > 0) {
+                const randomIndex = Math.floor(Math.random() * newAvailableVideos.length);
+                video = newAvailableVideos[randomIndex];
+            } else {
+                // 모든 비디오가 히스토리에 있으면 히스토리 초기화 후 다시 선택
+                this.playHistory = [];
+                this.saveHistoryToStorage();
+                const randomIndex = Math.floor(Math.random() * data.items.length);
+                video = data.items[randomIndex];
+            }
+
+            if (video) {
+                this.addToHistory(video.id);
+                this.saveHistoryToStorage();
+                return video;
+            } else {
+                throw new Error('적절한 비디오를 찾을 수 없습니다.');
+            }
+
         } catch (error) {
             console.error('비디오 가져오기 실패:', error);
             throw error;
